@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Packet Analyzer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Network Packet Analyzer</h1>
+    <form id="analyze-form">
+        <label for="packet-summary">Packet summary:</label>
+        <textarea id="packet-summary" name="packet_summary" rows="4" cols="50"></textarea>
+        <button type="submit">Analyze</button>
+    </form>
+    <div id="result"></div>
+    
+    <script>
+        $('#analyze-form').on('submit', function(event) {
+            event.preventDefault();
+            const packet_summary = $('#packet-summary').val();
+
+            $.ajax({
+                url: '/ask',
+                data: { packet_summary: packet_summary },
+                type: 'POST',
+                success: function(data) {
+                    $('#result').html('<p><strong>Analysis:</strong> ' + data.response + '</p>');
+                },
+                error: function() {
+                    $('#result').html('<p>Error: Unable to analyze the packet.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
