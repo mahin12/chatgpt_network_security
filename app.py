@@ -2,6 +2,8 @@ import requests
 from scapy.all import sniff
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+import pymongo
+from pymongo import MongoClient
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
@@ -25,6 +27,27 @@ def load_user(user_id):
 @login_required
 def index():
     return render_template('homePage.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        name = request.form['name']
+
+        # check if username exists in MongoDB
+        user = collection.find_one({'_id': username})
+        if user:
+            message = '*****Username already exists. Try a New One*****'
+            return render_template('registration.html', message=message)
+
+        # if new user, store information in MongoDB
+        collection.insert_one({'_id': username, 'password': password, 'email': email, 'name': name})
+        message = 'Registration successful'
+        return render_template('login.html', message=message)
+    return render_template('registration.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
