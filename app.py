@@ -41,13 +41,13 @@ def register():
         user = collection.find_one({'_id': username})
         if user:
             message = '*****Username already exists. Try a New One*****'
-            return render_template('registration.html', message=message)
+            return render_template('register.html', message=message)
 
         # if new user, store information in MongoDB
         collection.insert_one({'_id': username, 'password': password, 'email': email, 'name': name})
         message = 'Registration successful'
         return render_template('login.html', message=message)
-    return render_template('registration.html')
+    return render_template('register.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,14 +55,18 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-
-        if username == 'admin' and password == 'password':
-            user = User(1)
-            login_user(user)
-            return redirect(url_for('index'))
-        else:
-            return render_template('login.html', error='Invalid username or password')
-
+        cluster = MongoClient(
+            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        db = cluster["securifyGPT"]
+        collection = db["userinfo"]
+        results = collection.find({"_id": username})
+        for result in results:
+            if result["password"] == password:
+                user = User(1)
+                login_user(user)
+                return redirect(url_for('index'))
+            else:
+                return render_template('login.html', error='Invalid username or password. Try Again.')
     return render_template('login.html')
 
 
