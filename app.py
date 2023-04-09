@@ -1,8 +1,12 @@
 import requests
+
 from scapy.all import sniff
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import current_user
+
 import pymongo
+
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -26,7 +30,10 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():
-    return render_template('homePage.html')
+    username = current_user.id  # get the current user's ID
+    # pass the username to the template
+    return render_template('homePage.html', username=username)
+
 
 
 # @app.route('/register', methods=['GET', 'POST'])
@@ -95,7 +102,13 @@ def test_your_code():
 @app.route('/history', methods=['POST'])
 @login_required
 def access_history():
-    return "Access history page"
+    # connect to MongoDB and retrieve search history for the current user
+    client = MongoClient()
+    db = client['securifyGPT']
+    history = db.search_history.find({'user_id': current_user.id})
+
+    # pass the search history to the template
+    return render_template('historyPage.html', history=history)
 
 
 @app.route('/logout', methods=['POST'])
