@@ -15,11 +15,14 @@
         <div class="row">
             <div class="col-md-6">
                 <form id="analyze-form">
-                    <div class="form-group">
-                        <label for="packet-summary">Packet summary:</label>
-                        <textarea class="form-control" id="packet-summary" name="packet_summary" rows="10"></textarea>
+                    <div class="mb-3">
+                        <label for="packet-summary" class="form-label">Packet summary:</label>
+                        <textarea class="form-control" id="packet-summary" name="packet_summary" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Analyze</button>
+                    <button type="button" class="btn btn-sm btn-warning" onclick="goBack()" style="float: right; margin-left: 10px;">
+                        Go Back
+                    </button>
                 </form>
             </div>
             <div class="col-md-6">
