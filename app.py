@@ -102,7 +102,17 @@ def register():
         name = request.form['name']
 
         # check if username exists in MongoDB
-        user = collection.find
+        user = collection.find_one({'_id': username})
+        if user:
+            message = '*****Username already exists. Try a New One*****'
+            return render_template('registration.html', message=message)
+
+        # if new user, store information in MongoDB
+        collection.insert_one(
+            {'_id': username, 'password': password, 'email': email, 'name': name})
+        message = 'Registration successful'
+        return render_template('login.html', message=message)
+    return render_template('registration.html')
 
 
 API_KEY = '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'
