@@ -41,8 +41,7 @@
         }
 
         input[type="text"],
-        input[type="password"],
-        input[type="email"] {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             font-size: 16px;
@@ -77,15 +76,12 @@
             {{ error }}
         </div>
         {% endif %}
-        {% if message %}
-        <p>{{ message }}</p>
-        {% endif %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
         <input type="submit" value="Login"><br>
-        <p class="text-center mt-5">Don't have an account? <a href="register">Register here</a></p>
+        <p class="text-center mt-5">Don't have an account? <a href="/register">Register here</a></p>
 
     </form>
 </body>
