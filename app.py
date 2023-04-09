@@ -34,31 +34,17 @@ def index():
     return render_template('homePage.html', username=username)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        cluster = MongoClient(
-            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
-        db = cluster["securifyGPT"]
-        collection = db["userinfo"]
-        results = collection.find({"_id": username})
-        for result in results:
-            if result["password"] == password:
-                user = User(1)
-                login_user(user)
-                session['username'] = username
-                return redirect(url_for('index'))
-            else:
-                return render_template('login.html', error='Invalid username or password. Try Again.')
-    return render_template('login.html')
-
 
 @app.route('/testCode', methods=['POST'])
 @login_required
 def test_your_code():
     return redirect(url_for('test'))
+
+
+@app.route('/test')
+@login_required
+def test():
+    return render_template('test.html')
 
 
 @app.route('/history', methods=['POST'])
