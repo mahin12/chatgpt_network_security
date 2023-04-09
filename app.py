@@ -1,17 +1,17 @@
 import requests
-
 from scapy.all import sniff
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-from flask_login import current_user
-
 import pymongo
-
 from pymongo import MongoClient
+import openai
+from flask import Flask, request, session
+import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
-
+username = None
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -30,47 +30,8 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():
-    username = current_user.id  # get the current user's ID
-    # pass the username to the template
+    username = session['username']
     return render_template('homePage.html', username=username)
-
-
-
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         email = request.form['email']
-#         name = request.form['name']
-
-#         # check if username exists in MongoDB
-#         user = collection.find_one({'_id': username})
-#         if user:
-#             message = '*****Username already exists. Try a New One*****'
-#             return render_template('register.html', message=message)
-
-#         # if new user, store information in MongoDB
-#         collection.insert_one(
-#             {'_id': username, 'password': password, 'email': email, 'name': name})
-#         message = 'Registration successful'
-#         return render_template('login.html', message=message)
-#     return render_template('register.html')
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         username = request.form.get('username')
-#         password = request.form.get('password')
-
-#         if username == 'admin' and password == 'password':
-#             user = User(username)
-#             login_user(user)
-#             return redirect(url_for('index'))
-#         else:
-#             return render_template('login.html', error='Invalid username or password')
-
-#     return render_template('login.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -85,8 +46,9 @@ def login():
         results = collection.find({"_id": username})
         for result in results:
             if result["password"] == password:
-                user = User(username)
+                user = User(1)
                 login_user(user)
+                session['username'] = username
                 return redirect(url_for('index'))
             else:
                 return render_template('login.html', error='Invalid username or password. Try Again.')
@@ -105,12 +67,13 @@ def access_history():
     # connect to MongoDB and retrieve search history for the current user
     client = MongoClient(
         "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
-    db = client['securifyGPT']
-    history = db.search_history.find({'user_id': current_user.id})
+    db = client["securifyGPT"]
+    collection = db["history"]
+    history = collection.find({'username': session['username']})
 
-    # pass the search history to the template
-    return render_template('historyPage.html', history=history)
+    print(history)
 
+    return render_template('historyPage.html', results=history)
 
 
 @app.route('/logout', methods=['POST'])
@@ -120,10 +83,20 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/test')
-@login_required
-def test():
-    return render_template('test.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        cluster = MongoClient(
+            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        db = cluster["securifyGPT"]
+        collection = db["userinfo"]
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        name = request.form['name']
+
+        # check if username exists in MongoDB
+        user = collection.find
 
 
 API_KEY = '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'
