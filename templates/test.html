@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Packet Analyzer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 32px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        form {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        #result {
+            width: 400px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <div class="container">
+            <h1 class="text-center my-5">Network Packet Analyzer</h1>
+            <form id="analyze-form">
+                <div class="mb-3">
+                    <label for="packet-summary" class="form-label">Packet summary:</label>
+                    <textarea class="form-control" id="packet-summary" name="packet_summary" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze</button>
+            </form>
+            <div id="result" class="mt-3"></div>
+        </div>
+    </div>
+
+<button type="button" class="btn btn-sm btn-warning mt-5" onclick="goBack()"
+    style="width: 25%; margin: 0 auto; display: block; background-color: orange !important;">Go Back</button>
+
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        function goBack() {
+                window.history.back();
+            }
+
+
+        $('#analyze-form').on('submit', function (event) {
+            event.preventDefault();
+            const packet_summary = $('#packet-summary').val();
+
+            $.ajax({
+                url: '/ask',
+                data: { packet_summary: packet_summary },
+                type: 'POST',
+                success: function (data) {
+                    $('#result').html('<p><strong>Analysis:</strong> ' + data.response + '</p>');
+                },
+                error: function () {
+                    $('#result').html('<p>Error: Unable to analyze the packet.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
