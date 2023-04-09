@@ -57,40 +57,40 @@ def index():
 #         return render_template('login.html', message=message)
 #     return render_template('register.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        if username == 'admin' and password == 'password':
-            user = User(1)
-            login_user(user)
-            return redirect(url_for('index'))
-        else:
-            return render_template('login.html', error='Invalid username or password')
-
-    return render_template('login.html')
-
-
 # @app.route('/login', methods=['GET', 'POST'])
 # def login():
 #     if request.method == 'POST':
 #         username = request.form.get('username')
 #         password = request.form.get('password')
-#         cluster = MongoClient(
-#             "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
-#         db = cluster["securifyGPT"]
-#         collection = db["userinfo"]
-#         results = collection.find({"_id": username})
-#         for result in results:
-#             if result["password"] == password:
-#                 user = User(1)
-#                 login_user(user)
-#                 return redirect(url_for('index'))
-#             else:
-#                 return render_template('login.html', error='Invalid username or password. Try Again.')
+
+#         if username == 'admin' and password == 'password':
+#             user = User(username)
+#             login_user(user)
+#             return redirect(url_for('index'))
+#         else:
+#             return render_template('login.html', error='Invalid username or password')
+
 #     return render_template('login.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        cluster = MongoClient(
+            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        db = cluster["securifyGPT"]
+        collection = db["userinfo"]
+        results = collection.find({"_id": username})
+        for result in results:
+            if result["password"] == password:
+                user = User(username)
+                login_user(user)
+                return redirect(url_for('index'))
+            else:
+                return render_template('login.html', error='Invalid username or password. Try Again.')
+    return render_template('login.html')
 
 
 @app.route('/testCode', methods=['POST'])
@@ -103,12 +103,14 @@ def test_your_code():
 @login_required
 def access_history():
     # connect to MongoDB and retrieve search history for the current user
-    client = MongoClient()
+    client = MongoClient(
+        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
     db = client['securifyGPT']
     history = db.search_history.find({'user_id': current_user.id})
 
     # pass the search history to the template
     return render_template('historyPage.html', history=history)
+
 
 
 @app.route('/logout', methods=['POST'])
