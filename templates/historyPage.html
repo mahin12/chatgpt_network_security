@@ -18,40 +18,25 @@
                 <tr>
                     <th>#</th>
                     <th>Date</th>
-                    <th>Search Query</th>
+                    <th>Code</th>
                     <th>Result</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in history %}
+                {% for result in results %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.query }}</td>
-                    <td>{{ item.result }}</td>
+                    <td>{{ result.date }}</td>
+                    <td>{{ result.code }}</td>
+                    <td>{{ result.result }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <script>
-            function goBack() {
-                    window.history.back();
-                }
-        </script>
-
     </div>
 
-    <button type="button" class="btn btn-sm btn-warning mt-5" onclick="goBack()"
-        style="width: 25%; margin: 0 auto; display: block; background-color: orange !important;">Go Back</button>
-
-
     <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-
-    
-
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
