@@ -27,7 +27,11 @@
                     </button>
                 </form>
                 <form action="/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file">
+                    <label for="file-upload" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Choose file
+                        <input type="file" name="file">
+                    </label>
+
                 </form>
             </div>
             <div class="col-md-6">
@@ -70,24 +74,22 @@
         });
     </script>
 
-    <!-- <style>
-        input[type="file"] {
-            display: none;
-        }
-
+    <style>
         .custom-file-upload {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
             cursor: pointer;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
+            border-radius: 5px;
         }
 
         .custom-file-upload:hover {
             background-color: #3e8e41;
         }
-    </style> -->
+    </style>
 
 </body>
 
