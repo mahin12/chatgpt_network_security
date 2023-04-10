@@ -11,6 +11,7 @@
 
 <body>
     <div class="container-fluid">
+        <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
         <h1 class="text-center my-5">Test Your Code Vulnerability</h1>
         <div class="row">
             <div class="col-md-6">
@@ -20,9 +21,13 @@
                         <textarea class="form-control" id="packet-summary" name="packet_summary" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Analyze</button>
-                    <button type="button" class="btn" onclick="goBack()" style="margin-left: 10px; background-color: orange !important;">
+                    <button type="button" class="btn" onclick="goBack()"
+                        style="margin-left: 10px; background-color: orange !important;">
                         Go Back
                     </button>
+                </form>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file">
                 </form>
             </div>
             <div class="col-md-6">
@@ -53,6 +58,18 @@
                 }
             });
         });
+
+        $('input[type="file"]').change(function (e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#packet-summary').val(e.target.result);
+                    };
+                    reader.readAsText(file);
+                }
+            });
+
     </script>
 
 </body>

@@ -28,10 +28,19 @@ def load_user(user_id):
 
 
 @app.route('/')
-@login_required
 def index():
-    username = session['username']
-    return render_template('homePage.html', username=username)
+    return render_template('webCover.html')
+    # username = session['username']
+    # eturn render_template('homePage.html', username=username)
+
+@app.route('/website')
+def website():
+    return render_template('webCover.html')
+
+
+@app.route('/homepage')
+def home():
+    return render_template('homePage.html', username=session['username'])
 
 
 
@@ -119,32 +128,83 @@ API_KEY = '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'
 API_URL = 'https://api.openai.com/v1/engines/text-davinci-002/completions'
 
 
-@app.route('/ask', methods=['POST'])
-@login_required
-def ask_chatgpt():
-    packet_summary = request.form['packet_summary']
-    prompt = f"Analyze the following network packet information for potential threats:\n{packet_summary}"
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        testCode = uploaded_file.read().decode('utf-8')
+    openai.api_key = API_KEY
+    model_engine = "text-davinci-003"
+    prompt = (f"Role=system\n"
+              f"Content=you are a cyber security expert. List out these parameter for given code: 1. security threat count, 2. threat names 3. Threat level next line \n"
+              f"Role=user\n"
+              f"Content={testCode}")
 
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {API_KEY}',
     }
 
-    data = {
-        'prompt': prompt,
-        'max_tokens': 100,
-        'n': 1,
-        'stop': None,
-        'temperature': 0,
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.0,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    print(session['username'])
+    print(response.choices[0].text.strip())
+    cluster = MongoClient(
+        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    db = cluster["securifyGPT"]
+    collection = db["history"]
+    collection.insert_one(
+        {'username': session['username'], 'code': testCode, 'result': response.choices[0].text.strip(),
+         'date': datetime.now()})
+    result = response.choices[0].text.strip()
+    return jsonify({'response': result})
+
+@app.route('/ask', methods=['POST'])
+@login_required
+def ask_chatgpt():
+    testCode = request.form['packet_summary']
+    openai.api_key = API_KEY
+    model_engine = "text-davinci-003"
+    prompt = (f"Role=system\n"
+              f"Content=you are a cyber security expert. List out these parameter for given code: 1. security threat count, 2. threat names 3. Threat level next line \n"
+              f"Role=user\n"
+              f"Content={testCode}")
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {API_KEY}',
     }
 
-    response = requests.post(API_URL, headers=headers, json=data)
-
-    if response.status_code == 200:
-        result = response.json()['choices'][0]['text'].strip()
-    else:
-        result = f"Error: {response.status_code}"
-
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.0,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    print(session['username'])
+    print(response.choices[0].text.strip())
+    cluster = MongoClient(
+        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    db = cluster["securifyGPT"]
+    collection = db["history"]
+    collection.insert_one(
+        {'username': session['username'], 'code': testCode, 'result': response.choices[0].text.strip(),
+         'date': datetime.now()})
+    result = response.choices[0].text.strip()
     return jsonify({'response': result})
 
 
