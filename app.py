@@ -33,6 +33,7 @@ def index():
     # username = session['username']
     # eturn render_template('homePage.html', username=username)
 
+
 @app.route('/website')
 def website():
     return render_template('webCover.html')
@@ -41,7 +42,6 @@ def website():
 @app.route('/homepage')
 def home():
     return render_template('homePage.html', username=session['username'])
-
 
 
 @app.route('/testCode', methods=['POST'])
@@ -91,6 +91,7 @@ def login():
                 return render_template('login.html', error='Invalid username or password. Try Again.')
     return render_template('login.html')
 
+
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
@@ -119,12 +120,12 @@ def register():
         # if new user, store information in MongoDB
         collection.insert_one(
             {'_id': username, 'password': password, 'email': email, 'name': name})
-        message = 'Registration successful'
+        message = 'Registration successful. Try Login Now'
         return render_template('login.html', message=message)
     return render_template('registration.html')
 
 
-API_KEY = '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'
+API_KEY = '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'
 API_URL = 'https://api.openai.com/v1/engines/text-davinci-002/completions'
 
 
@@ -167,6 +168,7 @@ def upload_file():
          'date': datetime.now()})
     result = response.choices[0].text.strip()
     return jsonify({'response': result})
+
 
 @app.route('/ask', methods=['POST'])
 @login_required

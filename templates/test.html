@@ -17,7 +17,7 @@
             <div class="col-md-6">
                 <form id="analyze-form">
                     <div class="mb-3">
-                        <label for="packet-summary" class="form-label">Packet summary:</label>
+                        <label for="packet-summary" class="form-label">Your Code</label>
                         <textarea class="form-control" id="packet-summary" name="packet_summary" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Analyze</button>
@@ -58,18 +58,16 @@
                 }
             });
         });
-
         $('input[type="file"]').change(function (e) {
-                var file = e.target.files[0];
-                if (file) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#packet-summary').val(e.target.result);
-                    };
-                    reader.readAsText(file);
-                }
-            });
-
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#packet-summary').val(e.target.result);
+                };
+                reader.readAsText(file);
+            }
+        });
     </script>
 
 </body>
