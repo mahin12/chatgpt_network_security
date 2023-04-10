@@ -86,7 +86,7 @@ def login():
                 user = User(1)
                 login_user(user)
                 session['username'] = username
-                return redirect(url_for('index'))
+                return redirect(url_for('home'))
             else:
                 return render_template('login.html', error='Invalid username or password. Try Again.')
     return render_template('login.html')
