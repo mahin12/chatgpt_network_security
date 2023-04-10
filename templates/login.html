@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+
     <!-- Add Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
@@ -81,25 +81,22 @@
             {{ error }}
         </div>
         {% endif %}
-
         {% if message %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
         {% endif %}
-
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
         <input type="submit" value="Login"><br>
-        <p class="text-center mt-5">Don't have an account? <a href="/register">Register here</a></p>
+        <p class="text-center mt-5">Don't have an account? <a href="/register">Register here -></a></p>
 
     </form>
-
     <!-- Add jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <!-- Add Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
