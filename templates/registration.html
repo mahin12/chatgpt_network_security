@@ -1,3 +1,32 @@
+<!--
+CodeSecureAI - User Registration Page
+
+This HTML file serves as the user registration page for the CodeSecureAI website. Users can fill in the required
+fields to create a new account.
+
+Structure:
+1. DOCTYPE declaration and opening HTML tags with language attribute
+2. Head section containing:
+    a. Meta tags for UTF-8 charset and viewport settings
+    b. Title of the web page
+    c. Links to external Bootstrap CSS and Animate.css
+    d. Custom CSS styles
+3. Body section containing:
+    a. Website title
+    b. Registration form title
+    c. Registration form with a POST method
+        i. Error message display (using server-side templating)
+        ii. Form fields for username, password, email address, and name
+        iii. Submit button for registration
+        iv. Login link for existing users
+4. Closing HTML tags
+
+Note: Update the links to external CSS files if necessary. Server-side templating syntax may vary depending on the
+backend framework used (e.g., Flask, Django, Express).
+-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +34,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration Page</title>
+
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Add Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <style>
+        /* General styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -24,6 +61,7 @@
             margin-bottom: 40px;
         }
 
+        /* Form styles */
         form {
             width: 400px;
             margin: 0 auto;
@@ -70,15 +108,22 @@
 </head>
 
 <body>
+    <!-- Website title -->
+    <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
+
+    <!-- Registration form title -->
     <h1>User Registration</h1>
 
+    <!-- Registration form -->
     <form action="/register" method="POST">
-
+        <!-- Display error message if any -->
         {% if message %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
         {% endif %}
+
+        <!-- Form fields -->
         <label>Username:</label>
         <input type="text" name="username" required><br><br>
         <label>Password:</label>
@@ -87,7 +132,12 @@
         <input type="email" name="email" required><br><br>
         <label>Name:</label>
         <input type="text" name="name" required><br><br>
+
+        <!-- Submit button -->
         <input type="submit" value="Register">
+
+        <!-- Login link -->
+        <p class="text-center mt-5">Already have an account? <a href="/login"> Back to LOGIN </a></p>
     </form>
 
 </body>
