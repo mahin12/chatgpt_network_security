@@ -1,3 +1,29 @@
+<!--
+CodeSecureAI - Homepage
+
+This HTML file serves as the homepage for the CodeSecureAI website. Logged-in users are welcomed and can access
+features such as testing their code, viewing their history, and logging out.
+
+Structure:
+1. DOCTYPE declaration and opening HTML tags with language attribute
+2. Head section containing:
+    a. Meta tags for UTF-8 charset and viewport settings
+    b. Title of the web page
+    c. Links to external Bootstrap CSS and Animate.css
+    d. Custom CSS styles
+3. Body section containing:
+    a. Main container with Bootstrap grid system
+        i. Welcome message (username from server-side templating)
+        ii. Test code and access history buttons with custom gradient styles
+        iii. Logout button with custom gradient style
+    b. Links to external jQuery and Bootstrap JS
+4. Closing HTML tags
+
+Note: Update the links to external CSS, JS, and jQuery files if necessary. Server-side templating syntax may vary
+depending on the backend framework used (e.g., Flask, Django, Express).
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,51 +37,9 @@
 
     <!-- Add Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-</head>
-
-<body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6 text-center">
-                <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
-                <h1 class="display-4 animate__animated animate__fadeInDown">Welcome to the Homepage, {{ username }}!
-                </h1>
-            </div>
-        </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-4 text-center">
-                <form method="POST" action="/testCode">
-                    <button type="submit"
-                        class="btn btn-lg btn-gradient-primary animate__animated animate__fadeInUp">Test your
-                        code</button>
-                </form>
-            </div>
-            <div class="col-md-4 text-center">
-                <form method="POST" action="/history">
-                    <button type="submit"
-                        class="btn btn-lg btn-gradient-success animate__animated animate__fadeInUp">Access
-                        History</button>
-
-                </form>
-            </div>
-        </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6 text-center">
-                <form method="POST" action="/logout">
-                    <button type="submit"
-                        class="btn btn-lg btn-gradient-danger animate__animated animate__fadeInUp">Logout</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!-- Add Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
+        /* Custom button styles */
         .btn-gradient-primary {
             background-image: linear-gradient(to right, #667eea 0%, #764ba2 100%);
             border: none;
@@ -74,7 +58,54 @@
             color: white;
         }
     </style>
+</head>
 
+<body>
+    <!-- Main container -->
+    <div class="container">
+        <!-- Welcome message -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 text-center">
+                <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
+                <h1 class="display-4 animate__animated animate__fadeInDown">Welcome to the Homepage, {{ username }}!
+                </h1>
+            </div>
+        </div>
+
+        <!-- Test code and access history buttons -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 text-center">
+                <form method="POST" action="/testCode">
+                    <button type="submit"
+                        class="btn btn-lg btn-gradient-primary animate__animated animate__fadeInUp">Test your
+                        code</button>
+                </form>
+            </div>
+            <div class="col-md-4 text-center">
+                <form method="POST" action="/history">
+                    <button type="submit"
+                        class="btn btn-lg btn-gradient-success animate__animated animate__fadeInUp">Access
+                        History</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Logout button -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 text-center">
+                <form method="POST" action="/logout">
+                    <button type="submit"
+                        class="btn btn-lg btn-gradient-danger animate__animated animate__fadeInUp">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

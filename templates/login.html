@@ -1,3 +1,32 @@
+<!--
+CodeSecureAI - Login Page
+
+This HTML file serves as the login page for the CodeSecureAI website. Users can enter their username and password
+to access their account.
+
+Structure:
+1. DOCTYPE declaration and opening HTML tags with language attribute
+2. Head section containing:
+    a. Meta tags for UTF-8 charset and viewport settings
+    b. Title of the web page
+    c. Links to external Bootstrap CSS and Animate.css
+    d. Custom CSS styles
+3. Body section containing:
+    a. Website title
+    b. Login form title
+    c. Login form with a POST method
+        i. Error message display (using server-side templating)
+        ii. Form fields for username and password
+        iii. Submit button for login
+        iv. Registration link for new users
+    d. Links to external jQuery and Bootstrap JS
+4. Closing HTML tags
+
+Note: Update the links to external CSS, JS, and jQuery files if necessary. Server-side templating syntax may vary
+depending on the backend framework used (e.g., Flask, Django, Express).
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,11 +34,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- Add Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <style>
+        /* General styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -28,6 +61,7 @@
             margin-bottom: 40px;
         }
 
+        /* Form styles */
         form {
             width: 400px;
             margin: 0 auto;
@@ -73,9 +107,15 @@
 </head>
 
 <body>
+    <!-- Website title -->
     <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
+
+    <!-- Login form title -->
     <h1>Login</h1>
+
+    <!-- Login form -->
     <form method="POST" action="/login">
+        <!-- Display error messages if any -->
         {% if error %}
         <div class="alert alert-danger" role="alert">
             {{ error }}
@@ -86,14 +126,20 @@
             {{ message }}
         </div>
         {% endif %}
+
+        <!-- Form fields -->
         <label for="username">Username:</label>
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
-        <input type="submit" value="Login"><br>
-        <p class="text-center mt-5">Don't have an account? <a href="/register">Register here -></a></p>
 
+        <!-- Submit button -->
+        <input type="submit" value="Login"><br>
+
+        <!-- Registration link -->
+        <p class="text-center mt-5">Don't have an account? <a href="/register">Register here -></a></p>
     </form>
+
     <!-- Add jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 

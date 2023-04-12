@@ -1,8 +1,35 @@
+<!--
+CodeSecureAI - Search History
+
+This HTML file serves as the search history page for the CodeSecureAI website. Users can view their code
+testing history in a table format.
+
+Structure:
+1. DOCTYPE declaration and opening HTML tags
+2. Head section containing:
+    a. Title of the web page
+    b. Links to external Bootstrap CSS and Animate.css
+3. Body section containing:
+    a. Main container
+        i. Page heading (with link to the main website)
+        ii. Search history table (server-side templating for rendering the results)
+        iii. Go back button (with inline style and JavaScript function to navigate back)
+    b. Links to external jQuery and Bootstrap JS
+    c. Go back function (JavaScript)
+4. Closing HTML tags
+
+Note: Update the links to external CSS, JS, and jQuery files if necessary. Server-side templating syntax may vary
+depending on the backend framework used (e.g., Flask, Django, Express).
+-->
+
+
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Search History</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -11,9 +38,13 @@
 </head>
 
 <body>
+    <!-- Main container -->
     <div class="container mt-5">
+        <!-- Page heading -->
         <h1 class="display-4 animate__animated animate__fadeInDown"><a href="/website">secureCodeAI</a></h1>
         <h1 class="display-4 text-center mb-5 animate__animated animate__fadeInDown">Search History</h1>
+
+        <!-- Search history table -->
         <table class="table table-hover animate__animated animate__fadeInUp">
             <thead>
                 <tr>
@@ -34,17 +65,18 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Go back button -->
         <button type="button" class="btn" onclick="goBack()"
             style="margin-left: 10px; background-color: orange !important;">
             Go Back
         </button>
     </div>
 
-
-
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- Go back function -->
     <script>
         function goBack() {
             window.history.back();
