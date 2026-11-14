@@ -5,3 +5,13 @@ __pycache__/
 *.pyc
 .env
 .vercel
+
+# Local secrets and user data
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.pem
+*.key
