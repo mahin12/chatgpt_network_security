@@ -50,7 +50,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 
 # Initialize the Flask app
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = os.environ['FLASK_SECRET_KEY']
 username = None
 
 # Initialize LoginManager
@@ -102,8 +102,7 @@ def test():
 @login_required
 def access_history():
     # connect to MongoDB and retrieve search history for the current user
-    client = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    client = MongoClient(os.environ['MONGODB_URI'])
     db = client["securifyGPT"]
     collection = db["history"]
     history = collection.find({'username': session['username']})
@@ -119,8 +118,7 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        cluster = MongoClient(
-            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        cluster = MongoClient(os.environ['MONGODB_URI'])
         db = cluster["securifyGPT"]
         collection = db["userinfo"]
         results = collection.find({"_id": username})
@@ -145,8 +143,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        cluster = MongoClient(
-            "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+        cluster = MongoClient(os.environ['MONGODB_URI'])
         db = cluster["securifyGPT"]
         collection = db["userinfo"]
         username = request.form['username']
@@ -168,7 +165,7 @@ def register():
     return render_template('registration.html')
 
 # API key and URL
-API_KEY = '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'
+API_KEY = os.environ['OPENAI_API_KEY']
 API_URL = 'https://api.openai.com/v1/engines/text-davinci-002/completions'
 
 # Upload file route (POST)
@@ -202,8 +199,7 @@ def upload_file():
     )
     print(session['username'])
     print(response.choices[0].text.strip())
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient(os.environ['MONGODB_URI'])
     db = cluster["securifyGPT"]
     collection = db["history"]
     collection.insert_one(
@@ -242,8 +238,7 @@ def ask_chatgpt():
     )
     print(session['username'])
     print(response.choices[0].text.strip())
-    cluster = MongoClient(
-        "mongodb+srv://asmafariha:access123@cluster0.t1qqadg.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient(os.environ['MONGODB_URI'])
     db = cluster["securifyGPT"]
     collection = db["history"]
     collection.insert_one(
